@@ -2,7 +2,7 @@
 
 ## How to Use the Interface
 
-I chose to implement the Elevator Control System in Python. The easiest way to start using it is down clone this repository, then start an interactive Python shell: `python3 -i elevator_control_system.py`.
+I chose to implement the Elevator Control System in Python. The easiest way to start using it is to clone this repository, then start an interactive Python shell: `python3 -i elevator_control_system.py`.
 
 The main interface is the `ElevatorControlSystem` class, which has a number of useful methods. Create an instance of this class with however many floors and elevators you prefer: `ecs = ElevatorControlSystem(20, 16)` (for 20 floors and 16 elevators)
 

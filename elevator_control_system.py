@@ -12,7 +12,11 @@ class ElevatorControlSystem():
 
 	def status(self):
 		# returns the status of all elevators in the system (id, floor #, goal floor #)
-		return [(e.id, e.current_floor, e.up_queue, e.down_queue) for e in self.elevators]
+		return [(e.id, e.current_floor, e.up_queue, e.down_queue, e.direction) for e in self.elevators]
+
+	def describe(self):
+		for e in self.elevators:
+			print(e)
 
 	def update(self, elevator_id, floor_number):
 		# updates the state of an elevator in the system, adding a floor to its queue
@@ -21,13 +25,28 @@ class ElevatorControlSystem():
 
 	def pickup(self, floor_number, direction):
 		# submits a pickup request to the system
-		pass
+		best_elevator = self.elevators[0]
+		best_distance = self.number_of_floors * 2
+		for e in self.elevators:
+			distance = abs(e.current_floor - floor_number)
+
+			# penalize elevator scores based on direction
+			if (e.direction > 0 and floor_number < e.current_floor) or (e.direction > 0 and direction < 0):
+				highest_stop = heapq.nlargest(1, e.up_queue)[0]
+				distance += 2 * highest_stop
+			elif (e.direction < 0 and floor_number > e.current_floor) or (e.direction < 0 and direction > 0):
+				lowest_stop = heapq.nsmallest((1, e.down_queue))[0]
+				distance += 2 * lowest_stop
+
+			if distance < best_distance:
+				best_elevator = e
+				best_distance = distance
+		best_elevator.add_to_queue(floor_number)
 
 	def step(self):
 		# moves through one interval in the simulation
 		for e in self.elevators:
 			e.step()
-		return self.status()
 
 class Elevator():
 	def __init__(self, elevator_id):
@@ -56,7 +75,7 @@ class Elevator():
 		if self.direction < 0 and not self.down_queue:
 			self.direction = 1 if self.up_queue else 0
 
-	def add_to_queue(self, floor_number):
+	def add_to_queue(self, floor_number, direction=0):
 		if floor_number == self.current_floor:
 			print("Elevator " + str(self.id) + " stopping on floor " + str(floor_number))
 		elif floor_number > self.current_floor:
@@ -69,3 +88,15 @@ class Elevator():
 				heapq.heappush(self.down_queue, -floor_number)
 			if not self.direction:
 				self.direction = -1
+
+	def __str__(self):
+		return "Elevator " + str(self.id) \
+							+ " is on floor " \
+							+ str(self.current_floor) \
+							+ " going in direction " \
+							+ str(self.direction) \
+							+ " with up_queue " \
+							+ str(self.up_queue) \
+							+ " and down_queue " \
+							+ str(self.down_queue) \
+							+ "."

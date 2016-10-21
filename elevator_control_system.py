@@ -35,7 +35,7 @@ class ElevatorControlSystem():
 				highest_stop = heapq.nlargest(1, e.up_queue)[0]
 				distance += 2 * highest_stop
 			elif (e.direction < 0 and floor_number > e.current_floor) or (e.direction < 0 and direction > 0):
-				lowest_stop = heapq.nsmallest((1, e.down_queue))[0]
+				lowest_stop = heapq.nsmallest(1, e.down_queue)[0]
 				distance += 2 * lowest_stop
 
 			if distance < best_distance:

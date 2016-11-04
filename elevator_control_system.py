@@ -1,4 +1,4 @@
-import heapq
+import heapq, random, time
 
 class ElevatorControlSystem():
 	def __init__(self, number_of_floors, number_of_elevators):
@@ -91,12 +91,33 @@ class Elevator():
 
 	def __str__(self):
 		return "Elevator " + str(self.id) \
-							+ " is on floor " \
-							+ str(self.current_floor) \
-							+ " going in direction " \
-							+ str(self.direction) \
-							+ " with up_queue " \
-							+ str(self.up_queue) \
-							+ " and down_queue " \
-							+ str(self.down_queue) \
-							+ "."
+                            + " is on floor " \
+                            + str(self.current_floor) \
+                            + " going in direction " \
+                            + str(self.direction) \
+                            + " with up_queue " \
+                            + str(self.up_queue) \
+                            + " and down_queue " \
+                            + str(self.down_queue) \
+                            + "."
+
+if __name__ == '__main__':
+	print("----------------------------------")
+	print("---BEGINNING RANDOM SIMULATIONS---")
+	print("-------PRESS CTRL+C TO STOP-------")
+	print("----------------------------------")
+	time.sleep(2)
+	ecs = ElevatorControlSystem(16,16)
+	while(True):
+		for i in range(16):
+			a = random.randint(0,15)
+			b = random.randint(0,15)
+			ecs.update(i, a)
+			print('Requesting elevator ' + str(i) + ' to stop on floor ' + str(a) + '.')
+			direction = random.choice([-1,1])
+			ecs.pickup(b, direction)
+			print('Requesting pickup on floor ' + str(b) + ' in direction ' + str(direction) + '.')
+		for i in range(16):
+			ecs.step()
+			print(ecs.status())
+			time.sleep(1)

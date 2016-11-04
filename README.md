@@ -1,5 +1,12 @@
 # Elevator Coding Challenge
 
+**[Update 1] I added unit tests which can be run with `python3 elevator_control_system_tests.py`.**
+
+**[Update 2] I added a main function with a simulation that continuously makes random requests to the system and prints the status. 
+To try this simulation, run `python3 elevator_control_system.py`. Since there is now a main function, interactive mode is less
+pretty for the instructions below. For something cleaner, just open up a shell with `python3` and import the system
+with `from elevator_control_system import ElevatorControlSystem`.**
+
 ## How to Use the Interface
 
 I chose to implement the Elevator Control System in Python. The easiest way to start using it is to clone this repository, then start an interactive Python shell: `python3 -i elevator_control_system.py`.
